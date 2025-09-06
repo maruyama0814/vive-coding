@@ -1,0 +1,637 @@
+/* 基本設定 */
+:root {
+    --primary-color: #007BFF; /* メインカラー (例: 青) */
+    --secondary-color: #FFC107; /* アクセントカラー (例: 黄色) */
+    --text-color: #333;
+    --background-color: #f4f4f9;
+    --white-color: #fff;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* 全体のレイアウトコンテナ */
+.mobile-container {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--white-color);
+    overflow-x: hidden; /* はみ出し防止 */
+}
+
+/* PC表示時のスタイル */
+@media (min-width: 768px) {
+    .mobile-container {
+        max-width: 480px; /* スマホの最大幅に設定 */
+        margin: 2rem auto; /* 上下に余白、左右中央揃え */
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        min-height: calc(100vh - 4rem);
+    }
+}
+
+/* セクション共通の余白 */
+main > section {
+    padding: 40px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+main > section:last-of-type {
+    border-bottom: none;
+}
+
+/* ファーストビュー */
+#first-view {
+    position: relative; /* 疑似要素による背景設定のため */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh; /* 高さを元に戻す */
+    padding: 55px 20px 40px; /* 上部のpaddingでヘッダー分を調整 */
+    text-align: center;
+    color: var(--white-color); /* テキストを白に */
+    overflow: hidden; /* 疑似要素のはみ出し防止 */
+    background: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+    background-color: rgba(0, 0, 0, 0.5); /* 背景色をオーバーレイとして使う */
+    background-blend-mode: multiply; /* 画像と色を乗算して暗くする */
+}
+
+#first-view h1 {
+    font-size: 2rem; /* 少し大きく */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* 文字の影 */
+    margin-bottom: 10px;
+    margin-top: 0; /* 上部の隙間対策 */
+}
+
+#first-view p {
+    font-size: 1rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    max-width: 90%; /* 横幅を少し制限 */
+    margin-bottom: 30px;
+}
+
+/* メインビジュアルのダミーテキストは不要なので非表示に */
+.main-visual {
+    display: none;
+}
+
+
+/* 見出しスタイル */
+h1, h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 1.8rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+/* CTAボタン共通スタイル */
+.cta-button {
+    display: block;
+    width: 90%;
+    max-width: 320px;
+    margin: 20px auto 0;
+    padding: 15px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    font-weight: bold;
+    text-align: center;
+    border-radius: 50px;
+    transition: opacity 0.3s;
+}
+
+.cta-button:hover {
+    opacity: 0.8;
+}
+
+/* --- Header --- */
+header {
+    position: sticky;
+    top: 0;
+    background-color: var(--white-color);
+    z-index: 100;
+    border-bottom: 1px solid #eee;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+    z-index: 101; /* メニューより手前に */
+}
+
+/* --- Hamburger Menu (SP) --- */
+.hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 101;
+}
+
+.hamburger-menu span {
+    width: 100%;
+    height: 3px;
+    background: var(--text-color);
+    border-radius: 5px;
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 1px;
+}
+
+.hamburger-menu.open span:nth-child(1) {
+    transform: rotate(45deg);
+}
+
+.hamburger-menu.open span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.hamburger-menu.open span:nth-child(3) {
+    transform: rotate(-45deg);
+}
+
+/* --- Navigation (SP) --- */
+.global-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--white-color);
+    transform: translateX(100%);
+    transition: transform 0.5s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.global-nav.open {
+    transform: translateX(0);
+}
+
+.global-nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.global-nav a {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.header-cta-pc {
+    display: none;
+}
+.header-cta-sp .cta-button {
+    transform: scale(1.2);
+}
+
+
+/* --- PC Header Styles --- */
+@media (min-width: 768px) {
+    header {
+        position: fixed; /* PCでも固定 */
+        left: 0;
+        right: 0;
+    }
+
+    body {
+        padding-top: 55px; /* 固定ヘッダー分のスペース */
+    }
+
+    .header-inner {
+        max-width: 960px;
+        margin: 0 auto;
+    }
+
+    #first-view {
+        padding-top: 40px; /* PCでは元のpaddingに戻す */
+    }
+
+    .mobile-container {
+        padding-top: 0; /* PCではpaddingを解除 */
+    }
+
+    .hamburger-menu, .header-cta-sp {
+        display: none;
+    }
+
+    .global-nav {
+        position: static;
+        height: auto;
+        width: auto;
+        background: none;
+        transform: none;
+        transition: none;
+        display: block;
+    }
+
+    .global-nav ul {
+        flex-direction: row;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .global-nav a {
+        font-size: 0.9rem;
+        font-weight: normal;
+    }
+
+    .header-cta-pc {
+        display: inline-block;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+}
+
+/* フッター */
+footer {
+    padding: 30px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+footer .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+footer ul {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 0.8rem;
+}
+
+.sns-links a {
+    margin: 0 10px;
+    font-size: 1.2rem;
+}
+
+/* --- ターゲットの課題 --- */
+#target-issue {
+    background-color: #f9f9f9; /* 背景色を少し変える */
+}
+
+#target-issue ul {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* 各項目の間隔 */
+}
+
+#target-issue li {
+    background-color: var(--white-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: relative;
+    padding-left: 40px; /* アイコン用のスペース */
+}
+
+/* 悩みリストのアイコン */
+#target-issue li::before {
+    content: '✓'; /* チェックマークのアイコン */
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+#target-issue .solution {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 15px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border-radius: 8px;
+}
+
+/* --- 選ばれる理由 --- */
+#features .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+#features .feature-item:last-child {
+    margin-bottom: 0;
+}
+
+#features .feature-item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    flex-shrink: 0;
+}
+
+#features .feature-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+
+/* --- 利用者の声 --- */
+#testimonials {
+    background-color: #f9f9f9;
+}
+
+#testimonials .testimonial-card {
+    background-color: var(--white-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 25px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#testimonials .testimonial-card:last-child {
+    margin-bottom: 0;
+}
+
+#testimonials .testimonial-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+}
+
+#testimonials .testimonial-card .customer-name {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#testimonials .testimonial-card p:last-child {
+    position: relative;
+    padding: 0 1em;
+    text-align: left;
+}
+
+/* 引用符 */
+#testimonials .testimonial-card p:last-child::before {
+    content: '“';
+    position: absolute;
+    left: 0;
+    top: -5px;
+    font-size: 1.5rem;
+    color: #ccc;
+}
+#testimonials .testimonial-card p:last-child::after {
+    content: '”';
+    position: absolute;
+    right: 0;
+    bottom: -15px;
+    font-size: 1.5rem;
+    color: #ccc;
+}
+
+
+/* --- 講師紹介 --- */
+#lecturers {
+    background-color: #f9f9f9;
+}
+
+#lecturers .lecturer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+#lecturers .lecturer-item {
+    background-color: var(--white-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 25px;
+    text-align: center;
+}
+
+#lecturers .lecturer-item img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+}
+
+#lecturers .lecturer-item p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* --- 料金プラン --- */
+#pricing {
+    background-color: var(--background-color);
+}
+
+.pricing-table {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.plan-card {
+    background-color: var(--white-color);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative; /* おすすめバッジのため */
+    overflow: hidden; /* おすすめバッジのため */
+}
+
+.plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.plan-card.recommended {
+    border-color: var(--primary-color);
+    border-width: 2px;
+}
+
+.recommend-badge {
+    position: absolute;
+    top: 15px;
+    right: -30px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 5px 30px;
+    transform: rotate(45deg);
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.plan-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.plan-card .price {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.plan-card .price span {
+    font-size: 1rem;
+    font-weight: normal;
+    color: var(--text-color);
+}
+
+.features-list {
+    text-align: left;
+    margin-bottom: 30px;
+    line-height: 2;
+}
+
+.features-list .disabled {
+    color: #aaa;
+    text-decoration: line-through;
+}
+
+.plan-button {
+    width: 100%;
+}
+
+.pricing-note {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1.1rem;
+}
+
+/* --- FAQ --- */
+#faq {
+    background-color: var(--white-color);
+}
+
+#faq .faq-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+}
+
+#faq .faq-item:last-child {
+    border-bottom: none;
+}
+
+#faq .faq-question {
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    padding-right: 30px; /* アイコンのスペース */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 開閉アイコン */
+#faq .faq-question::after {
+    content: '+';
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    transition: transform 0.2s;
+}
+
+#faq .faq-item.open .faq-question::after {
+    content: '−';
+}
+
+#faq .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+    padding: 0 10px;
+}
+
+#faq .faq-item.open .faq-answer {
+    max-height: 200px; /* 十分な高さを確保 */
+    padding: 15px 10px 0;
+}
+
+/* --- 最終CTA --- */
+#final-cta {
+    background: linear-gradient(45deg, var(--primary-color), #0056b3);
+    color: var(--white-color);
+    text-align: center;
+    padding: 60px 20px;
+}
+
+#final-cta h2 {
+    font-size: 1.8rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    margin-bottom: 15px;
+}
+
+#final-cta p {
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+#final-cta .cta-button {
+    /* 基本スタイルは継承しつつ、少し調整 */
+    /* transform: scale(1.1); */ /* 表示崩れのため一旦コメントアウト */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+
+
+
+
